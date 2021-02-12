@@ -40,7 +40,7 @@ const Form = ({user}) => {
     }
     setMessage("")
   }
-// fixed inset-x-0 bottom-0 
+  
   return (
     <footer className="py-2 lg:py-3 px-4 shadow">
       <form onSubmit={handleSubmit} className="flex max-w-3xl mx-auto">

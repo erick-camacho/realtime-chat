@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import SignOut from './SignOut'
 import Message from './Message'
 import Form from './Form'
@@ -11,6 +11,11 @@ const query = db.collection("messages").orderBy("createdAt").limit(100)
 const Channel = ({ user }) => {
   const [messages, setMessages] = useState([])
 
+  const messageEndRef = useRef(null)
+  const scrollToBottom = () => {
+    messageEndRef.current.scrollIntoView(false)
+  }
+
   useEffect(() => {
     const unsubscribe = query.onSnapshot(querySnapshot => {
       const data = querySnapshot.docs.map(doc => ({
@@ -21,19 +26,23 @@ const Channel = ({ user }) => {
     })
     return unsubscribe
   }, [])
-  console.log(messages)
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
   return (
     <div className="h-screen grid auto-rows-auto">
       <SignOut/>
-      <main className="p-4 overflow-auto">
-        <ul className="space-y-5">
+      <main className="p-4 min-h-sm lg:min-h-lg overflow-auto">
+        <ul className="space-y-5 ">
           {messages.map(message => 
             <li key={message.id}>
               <Message {...message}/>
             </li>
           )}
         </ul>
+        <div ref={messageEndRef}></div>
       </main>
       <Form user={user}/>      
     </div>

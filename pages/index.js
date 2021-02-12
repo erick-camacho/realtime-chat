@@ -24,8 +24,8 @@ export default function Home() {
     return unsubscribe;
   }, [initializing]);
 
+  if (initializing) return null
   return (
-    !initializing && 
     <>
       {user ? (
         <Channel user={user}/>
