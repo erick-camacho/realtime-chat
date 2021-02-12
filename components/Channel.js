@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import SignOut from './SignOut'
 import Message from './Message'
 import Form from './Form'
 import firebase from 'firebase/app'
@@ -23,16 +24,19 @@ const Channel = ({ user }) => {
   console.log(messages)
 
   return (
-    <main>
-      <ul>
-        {messages.map(message => 
-          <li key={message.id}>
-            <Message {...message}/>
-          </li>
-        )}
-      </ul>
+    <div className="h-screen grid auto-rows-auto">
+      <SignOut/>
+      <main className="p-4 overflow-auto">
+        <ul className="space-y-5">
+          {messages.map(message => 
+            <li key={message.id}>
+              <Message {...message}/>
+            </li>
+          )}
+        </ul>
+      </main>
       <Form user={user}/>      
-    </main>
+    </div>
   );
 }
  

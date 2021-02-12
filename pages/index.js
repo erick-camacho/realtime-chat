@@ -25,12 +25,10 @@ export default function Home() {
   }, [initializing]);
 
   return (
+    !initializing && 
     <>
       {user ? (
-        <>
-          <SignOut/>
-          <Channel user={user}/>
-        </>
+        <Channel user={user}/>
       ) : (
         <SignIn/>
       )}

@@ -11,9 +11,17 @@ const SignOut = () => {
   };
   
   return (
-    <header>
-      <div className="logo">Chat</div>
-      <div className="button" onClick={handleSignOut}>Sign out</div>
+    <header className="shadow p-4 lg:py-5">
+      <div className="flex justify-between max-w-3xl mx-auto">
+        <h1 className="font-bold">Realtime Chat</h1>
+        <button 
+          type="button" 
+          onClick={handleSignOut}
+          className="hover:text-blue-600 focus:outline-none"
+          >
+            Sign Out
+          </button>
+      </div>
     </header>
   );
 }
