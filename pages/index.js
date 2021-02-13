@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import SignIn from '../components/SignIn'
-import SignOut from '../components/SignOut'
 import Channel from '../components/Channel'
 import firebase from 'firebase/app'
 import 'firebase/auth'

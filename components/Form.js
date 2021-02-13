@@ -1,14 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
 import firebase from 'firebase/app'
-import 'firebase/firestore'
+import { db } from '../firebase/config'
 import { Send, Smile } from 'react-feather'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 
-const db = firebase.firestore()
-const messagesRef = db.collection("messages")
-
 const addMessage = (message, user) => {
+  const messagesRef = db.collection("messages")
   messagesRef.add({
     text: message,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
