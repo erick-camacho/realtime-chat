@@ -1,74 +1,45 @@
-import { useEffect, useState, useRef } from 'react'
-import firebase from 'firebase/app'
-import { db } from '../firebase/config'
+import { useContext, useState } from 'react'
+import { UserContext } from '../pages'
+import { addMessage } from '../firebase/store'
 import { Send, Smile } from 'react-feather'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
+import usePicker from '../utils/usePicker'
 
-const addMessage = (message, user) => {
-  const messagesRef = db.collection("messages")
-  messagesRef.add({
-    text: message,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    uid: user.uid,
-    displayName: user.displayName,
-    photoURL: user.photoURL,
-  }).then(docRef => {
-    console.log("Document written with ID: ", docRef.id)
-  }).catch(error => {
-    console.error("Error adding document: ", error)
-  })
-}
-
-const Form = ({user}) => {
+const Form = () => {
   const [message, setMessage] = useState("")
-  const [open, setOpen] = useState(false)
-  
-  const inputRef = useRef(null)
-
-  useEffect(() => {
-    inputRef.current.focus()
-  }, [open])
+  const { isOpen, inputRef, toggle, close } = usePicker()
+  const user = useContext(UserContext)
 
   const handleChange = (e) => {
     setMessage(e.target.value)
   }
 
-  const handleClick = () => {
-    setOpen(!open)
-  }
-
-  const addEmoji = (emoji) => {
-    setMessage(message + emoji.native)
-    inputRef.current.focus()
-  }
-  
   const handleSubmit = (e) => {
     e.preventDefault()
     const trimmedMessage = message.trim()
     if (trimmedMessage){
       addMessage(trimmedMessage, user)
     }
-    setOpen(false)
+    close()
     setMessage("")
   }
-
-  const handleKeyUp = (e) => {
-    if (e.key === "Escape") {
-      setOpen(false)
-    }
-  }
   
+  const addEmoji = (emoji) => {
+    setMessage(message + emoji.native)
+    inputRef.current.focus()
+  }
+
   return (
     <footer className="py-2 lg:py-3 px-4 shadow">
       <div className="flex max-w-3xl mx-auto md:relative">
-        <div className={`absolute bottom-14 md:bottom-12 left-0 ${open || 'hidden'}`}>
+        <div className={`${isOpen || 'hidden'} absolute bottom-14 md:bottom-12 left-0`}>
           <Picker native={true} emoji="" color="#3B82F6" enableFrequentEmojiSort={true} showPreview={false} showSkinTones={false} perLine={9} onClick={addEmoji}/>
         </div>
         <button
           type="button"
-          onClick={handleClick}
-          className={`self-center text-gray-500 focus:outline-none ${open && 'text-blue-500'}`}
+          onClick={toggle}
+          className={`self-center text-gray-500 focus:outline-none ${isOpen && 'text-blue-500'}`}
         >
           <Smile size={24}/>
         </button>
@@ -79,13 +50,12 @@ const Form = ({user}) => {
             placeholder="Type a message"
             value={message}
             onChange={handleChange}
-            onKeyUp={handleKeyUp}
             className="bg-gray-200 placeholder-gray-500 rounded-3xl py-2 pl-4 flex-1 focus:outline-none mx-2"
           />
           <button 
             type="submit"
             disabled={!message}
-            className="self-center text-gray-500 disabled:opacity-50 focus:outline-none"
+            className={`self-center text-gray-500 disabled:opacity-50 focus:outline-none ${message || "cursor-default" }`}
           >
             <Send size={24}/>
           </button>
