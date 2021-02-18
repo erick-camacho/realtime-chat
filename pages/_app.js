@@ -1,5 +1,4 @@
 import "tailwindcss/tailwind.css";
-import '../firebase/config'
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />

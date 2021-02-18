@@ -3,10 +3,13 @@ import { signIn } from '../firebase/auth'
 const SignIn = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen space-y-48">
-      <h1 className="text-4xl text-center">
-        <span className="block font-light">Welcome to</span>
-        <span className="block text-blue-600 font-bold">Realtime Chat</span>
-      </h1>
+      <div className="text-center space-y-4">
+        <img src={require('../public/logo-chat.png')} alt="Realtime Chat Logo" width={80} height={80} className="mx-auto"/>
+        <h1 className="text-4xl">
+          <span className="block font-light">Welcome to</span>
+          <span className="block text-blue-600 font-bold">Realtime Chat</span>
+        </h1>
+      </div>
       <button
         type="button"
         onClick={signIn}

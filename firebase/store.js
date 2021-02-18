@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
+import app from './config'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-const db = firebase.firestore()
+const db = app.firestore()
 const messagesRef = db.collection("messages")
 const query = messagesRef.orderBy("createdAt").limit(100)
 

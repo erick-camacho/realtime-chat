@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
+import app from './config'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
+const auth = app.auth()
+
 export const signIn = async () => {
   const provider = new firebase.auth.GoogleAuthProvider()
-  firebase.auth().useDeviceLanguage()
+  auth.useDeviceLanguage()
   try {
-    await firebase.auth().signInWithRedirect(provider);
+    await auth.signInWithRedirect(provider);
   } catch (error) {
     console.log(error.message);
   }
@@ -14,7 +17,7 @@ export const signIn = async () => {
 
 export const signOut = async () => {
   try {
-    await firebase.auth().signOut();
+    await auth.signOut();
   } catch (error) {
     console.log(error.message);
   }
@@ -22,10 +25,10 @@ export const signOut = async () => {
 
 export const useAuth = () => {
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState(() => firebase.auth().currentUser);
+  const [user, setUser] = useState(() => auth.currentUser);
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         setUser(user);
       } else {

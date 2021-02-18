@@ -4,7 +4,7 @@ const SignOut = () => {
   return (
     <header className="shadow p-4 lg:py-5">
       <div className="flex justify-between max-w-3xl mx-auto">
-        <h1 className="font-bold">Realtime Chat</h1>
+        <h1 className="font-bold text-blue-600">Realtime Chat</h1>
         <button 
           type="button" 
           onClick={signOut}
